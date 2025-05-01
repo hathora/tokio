@@ -41,7 +41,7 @@ jobs:
   # Depends on all actions that are required for a "successful" CI run.
   tests-pass:
     name: all systems go
-    runs-on: ubuntu-latest
+    runs-on: hathora
     needs:
       - test-tokio-full
       - test-workspace-all-features
@@ -83,7 +83,7 @@ jobs:
   # Basic actions that must pass before we kick off more expensive tests.
   basics:
     name: basic checks
-    runs-on: ubuntu-latest
+    runs-on: hathora
     needs:
       - clippy
       - fmt
@@ -99,9 +99,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -131,9 +129,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -161,9 +157,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -189,9 +183,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -231,7 +223,7 @@ jobs:
     # `tokio/tokio/tests/async_send_sync.rs`.
     name: compile tests with parking lot send guards
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -250,7 +242,7 @@ jobs:
   valgrind:
     name: valgrind
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -287,9 +279,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-latest
-          - os: ubuntu-latest
-          - os: macos-latest
+          - os: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -323,7 +313,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -357,7 +347,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -385,7 +375,7 @@ jobs:
   miri-lib:
     name: miri-lib
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_miri_nightly }}
@@ -408,7 +398,7 @@ jobs:
   miri-test:
     name: miri-test
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_miri_nightly }}
@@ -431,7 +421,7 @@ jobs:
   miri-doc:
     name: miri-doc
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_miri_nightly }}
@@ -450,7 +440,7 @@ jobs:
   asan:
     name: asan
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install llvm
@@ -472,7 +462,7 @@ jobs:
   semver:
     name: semver
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Check `tokio` semver
@@ -492,7 +482,7 @@ jobs:
   cross-check:
     name: cross-check
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     strategy:
       matrix:
         target:
@@ -515,7 +505,7 @@ jobs:
   cross-check-tier3:
     name: cross-check-tier3
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     strategy:
       matrix:
         target:
@@ -545,10 +535,10 @@ jobs:
       matrix:
         include:
           - target: i686-unknown-linux-gnu
-            os: ubuntu-latest
+            os: hathora
             rustflags: --cfg tokio_taskdump
           - target: armv5te-unknown-linux-gnueabi
-            os: ubuntu-latest
+            os: hathora
           - target: armv7-unknown-linux-gnueabihf
             os: ubuntu-22.04-arm # TODO: update to 24.04 when https://github.com/rust-lang/rust/issues/135867 solved
           - target: aarch64-unknown-linux-gnu
@@ -589,10 +579,10 @@ jobs:
       matrix:
         include:
           - target: i686-unknown-linux-gnu
-            os: ubuntu-latest
+            os: hathora
             rustflags: --cfg tokio_taskdump
           - target: armv5te-unknown-linux-gnueabi
-            os: ubuntu-latest
+            os: hathora
           - target: armv7-unknown-linux-gnueabihf
             os: ubuntu-22.04-arm # TODO: update to 24.04 when https://github.com/rust-lang/rust/issues/135867 solved
           - target: aarch64-unknown-linux-gnu
@@ -634,7 +624,7 @@ jobs:
   no-atomic-u64-test:
     name: Test tokio --all-features on i686-unknown-linux-gnu without AtomicU64
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -665,7 +655,7 @@ jobs:
   no-atomic-u64-check:
     name: Check tokio --feature-powerset --depth 2 on i686-unknown-linux-gnu without AtomicU64
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -690,7 +680,7 @@ jobs:
   features:
     name: features ${{ matrix.name }}
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     strategy:
       matrix:
         include:
@@ -717,7 +707,7 @@ jobs:
 
   minrust:
     name: minrust
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_min }}
@@ -740,7 +730,7 @@ jobs:
   minimal-versions:
     name: minimal-versions
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -772,7 +762,7 @@ jobs:
 
   fmt:
     name: fmt
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -792,7 +782,7 @@ jobs:
 
   clippy:
     name: clippy
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_clippy }}
@@ -811,8 +801,7 @@ jobs:
     strategy:
       matrix:
         run:
-          - os: windows-latest
-          - os: ubuntu-latest
+          - os: hathora
             RUSTFLAGS: --cfg tokio_taskdump
             RUSTDOCFLAGS: --cfg tokio_taskdump
 
@@ -833,7 +822,7 @@ jobs:
   loom-compile:
     name: build loom tests
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -849,7 +838,7 @@ jobs:
 
   check-readme:
     name: Check README
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Verify that both READMEs are identical
@@ -866,9 +855,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -918,9 +905,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
+          - hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}
@@ -964,7 +949,7 @@ jobs:
   x86_64-fortanix-unknown-sgx:
     name: build tokio for x86_64-fortanix-unknown-sgx
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -981,7 +966,7 @@ jobs:
   check-redox:
     name: build tokio for redox-os
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -996,7 +981,7 @@ jobs:
   wasm32-unknown-unknown:
     name: test tokio for wasm32-unknown-unknown
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust 1.81
@@ -1014,7 +999,7 @@ jobs:
   wasm32-wasip1:
     name: ${{ matrix.target }}
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     strategy:
       matrix:
         target:
@@ -1081,7 +1066,7 @@ jobs:
       matrix:
         os:
           - windows-latest
-          - ubuntu-latest
+          - hathora
         rust:
           # `check-external-types` requires a specific Rust nightly version. See
           # the README for details: https://github.com/awslabs/cargo-check-external-types
@@ -1104,7 +1089,7 @@ jobs:
   check-fuzzing:
     name: check-fuzzing
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_nightly }}
@@ -1124,7 +1109,7 @@ jobs:
   check-spelling:
     name: check-spelling
     needs: basics
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust ${{ env.rust_stable }}

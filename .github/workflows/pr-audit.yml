@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   cargo-deny:
-    runs-on: ubuntu-latest
+    runs-on: hathora
     steps:
     - uses: actions/checkout@v4
     - uses: EmbarkStudios/cargo-deny-action@v2
